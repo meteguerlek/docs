@@ -99,7 +99,7 @@ export default Vue.extend({
 
 ```
 
-### Register
+### register
 
 **data**: `object`
 **guard**: `string`
