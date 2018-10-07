@@ -1,6 +1,21 @@
 # Authentication
 
+- [Configuration](#configuration)
+- [Methods](#methods)
+    - [login](#login)
+    - [register](#register)
+    - [logout](#logout)
+    - [user](#user)
+    - [fetchUser](#fetchUser)
+    - [check](#check)
+    - [loggedIn](#loggedIn)
+    - [guard](#guard)
+- [Drivers](#drivers)
+- [Middleware](#middleware)
+
 ## Configuration
+
+./config/auth.ts
 
 ```typescript
 export default {
@@ -106,7 +121,7 @@ this.$auth.register({
 
 ```
 
-### Logout
+### logout
 
 **data**: `object`
 **guard**: `string`
