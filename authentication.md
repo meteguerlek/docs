@@ -61,7 +61,7 @@ export default {
 
 ## Methods
 
-### Login
+### login
 
 **data**: `object`
 **guard**: `string`
