@@ -159,3 +159,12 @@ this.$auth.check(guard)
 ```js
 this.$auth.check();
 ```   
+
+## guard
+
+```js
+this.$auth.guard('admin').login({
+    emai: '...',
+    password: '...'
+},)
+```
