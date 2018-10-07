@@ -44,7 +44,9 @@ export default {
 };
 ```
 
-## Login
+## Methods
+
+### Login
 
 **data**: `object`
 **guard**: `string`
@@ -53,36 +55,36 @@ export default {
 this.$auth.login(data, guard)
 ```
 
-### Example
+#### Example
 
 ```js
 
-  import Vue from "vue";
+import Vue from "vue";
 
-    export default Vue.extend({
-        $inject: ["$auth"],
-        data() {
-            return {
-                email: '',
-                password: ''
-            }
-        },
-        methods: {
-            login() {
-                this.$auth.login({
-                    email: this.email,
-                    password: this.password
-                })
-                    .then(response => {
-                        this.$router.push({name: 'home'});
-                    })
-            }
+export default Vue.extend({
+    $inject: ["$auth"],
+    data() {
+        return {
+            email: '',
+            password: ''
         }
-    });
+    },
+    methods: {
+        login() {
+            this.$auth.login({
+                email: this.email,
+                password: this.password
+            })
+                .then(response => {
+                    this.$router.push({name: 'home'});
+                })
+        }
+    }
+});
 
 ```
 
-## Register
+### Register
 
 **data**: `object`
 **guard**: `string`
@@ -104,7 +106,7 @@ this.$auth.register({
 
 ```
 
-## Logout
+### Logout
 
 **data**: `object`
 **guard**: `string`
@@ -121,7 +123,7 @@ this.$auth.logout()
     })
 
 ```
-## user
+### user
 
 **data**: `object`
 **guard**: `string`
@@ -134,7 +136,7 @@ this.$auth.user(data, guard)
 ```js
 this.$auth.user();
 ```    
-## fetchUser
+### fetchUser
 
 **guard**: `string`
 **return**: `object`
@@ -147,7 +149,9 @@ this.$auth.fetchUser(guard)
 this.$auth.fetchUser();
 ```   
 
-## check
+### check
+
+Check with expires at time
 
 **guard**: `string`
 **return**: `boolean`
@@ -160,7 +164,20 @@ this.$auth.check(guard)
 this.$auth.check();
 ```   
 
-## guard
+### loggedIn
+
+**guard**: `string`
+**return**: `boolean`
+
+```js
+this.$auth.loggedIn(guard)
+```
+
+```js
+this.$auth.loggedIn();
+```   
+
+### guard
 
 ```js
 this.$auth.guard('admin').login({
@@ -168,3 +185,36 @@ this.$auth.guard('admin').login({
     password: '...'
 },)
 ```
+
+## Drivers
+
+### JWT
+
+[JSON Web Tokens](https://jwt.io/) are an open, industry standard RFC 7519 method for representing claims securely between two parties.
+
+## Middleware
+
+````typescript
+import {inject, injectable} from "inversify";
+import RouteMiddlewareInterface from "varie/lib/routing/RouteMiddlewareInterface";
+import AuthServiceInterface from "varie/lib/auth/AuthServiceInterface";
+
+@injectable()
+export default class Auth implements RouteMiddlewareInterface {
+    protected $auth;
+
+    constructor(@inject("$auth") auth: AuthServiceInterface) {
+        this.$auth = auth;
+    }
+
+    handler(to, from, next) {
+
+        if (this.$auth.check()) {
+            return next();
+        }
+
+        return next({name: 'login'})
+    }
+}
+````
+
