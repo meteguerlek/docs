@@ -9,7 +9,11 @@
     - [fetchUser](#fetchUser)
     - [check](#check)
     - [loggedIn](#loggedIn)
+    - [guest](#guest)
+    - [id](#id)
     - [guard](#guard)
+    - [getToken](#getToken)
+    - [getStorage](#getStorage)
 - [Drivers](#drivers)
 - [Middleware](#middleware)
 
@@ -21,6 +25,9 @@
 export default {
     defaults: {
         guard: 'user'
+    },
+    user: {
+        idPropertyName: 'id'
     },
     guards: {
         user: {
@@ -177,7 +184,7 @@ this.$auth.check(guard)
 
 ```js
 this.$auth.check();
-```   
+``` 
 
 ### loggedIn
 
@@ -192,13 +199,65 @@ this.$auth.loggedIn(guard)
 this.$auth.loggedIn();
 ```   
 
+### guest
+
+**guard**: `string`
+**return**: `boolean`
+
+```js
+this.$auth.guest(guard)
+```
+
+```js
+this.$auth.guest();
+```   
+
+### id
+
+**guard**: `string`
+**return**: `number|null`
+
+```js
+this.$auth.id(guard)
+```
+
+```js
+this.$auth.id();
+```   
+
 ### guard
 
 ```js
 this.$auth.guard('admin').login({
     emai: '...',
     password: '...'
-},)
+})
+```
+
+### getToken
+
+**guard**: `string`
+**return**: `string`
+
+```js
+this.$auth.getToken(guard);
+```
+
+```js
+this.$auth.getToken();
+```
+
+### getStorage
+
+**guard**: `string`
+**return**: `object|null`
+
+```js
+this.$auth.getStorage(guard);
+```
+
+```js
+this.$auth.getStorage();
 ```
 
 ## Drivers
