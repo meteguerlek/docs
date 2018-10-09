@@ -15,6 +15,7 @@
     - [getToken](#getToken)
     - [getStorage](#getStorage)
     - [getHeaders](#getHeaders)
+    - [onError](#onError)
 - [Drivers](#drivers)
 - [Middleware](#middleware)
 
@@ -41,14 +42,17 @@ export default {
                 login: {
                     url: '/auth/login',
                     method: 'post', // default post
+                    redirect: '/dashboard' // default false
                 },
                 logout: {
                     url: '/auth/logout',
                     method: 'post', // default post
+                    redirect: '/home'
                 },
                 register: {
                     url: '/auth/register',
                     method: 'post', // default post
+                    redirect: '/home', // default false
                     autoLogin: true, // default false
                 }
             },
@@ -78,6 +82,8 @@ export default {
 this.authService.login(data, guard)
 ```
 
+If you use `then` you got as response: loginResponse and userResponse.
+
 #### Example
 
 ```js
@@ -99,6 +105,7 @@ export default Vue.extend({
                 password: this.password
             })
                 .then(response => {
+                    console.log('Welcome '+ response.userResponse.data.name);
                     this.$router.push({name: 'home'});
                 })
         }
@@ -272,6 +279,25 @@ this.authService.getHeaders(guard);
 
 ```js
 this.authService.getHeaders();
+```
+
+### onError
+
+**handler**: `function`
+
+
+```js
+this.authService.onError(handler);
+```
+
+**error**: `AxiosError`
+**guard**: `string`
+**entpoint**: `string`
+
+```js
+this.authService.onError((error, guard, endpoint) => {
+    console.log(error, guard, endpoint)
+});
 ```
 
 ## Drivers
