@@ -6,18 +6,19 @@
     - [register](#register)
     - [logout](#logout)
     - [user](#user)
-    - [fetchUser](#fetchUser)
+    - [fetchUser](#fetchuser)
     - [check](#check)
-    - [loggedIn](#loggedIn)
+    - [loggedIn](#loggedin)
     - [guest](#guest)
     - [id](#id)
     - [guard](#guard)
-    - [getToken](#getToken)
-    - [getStorage](#getStorage)
-    - [getHeaders](#getHeaders)
-    - [onError](#onError)
+    - [getToken](#gettoken)
+    - [getStorage](#getstorage)
+    - [getHeaders](#getheaders)
+    - [onError](#onerror)
 - [Drivers](#drivers)
 - [Middleware](#middleware)
+- [Use guard with httpService](#use-guard-with-httpservice)
 
 ## Configuration
 
@@ -332,3 +333,37 @@ export default class Auth implements RouteMiddlewareInterface {
 }
 ````
 
+## Use guard with `httpService`
+
+We use the default guard on every request if user logged in and send the `Authorization` header:
+
+```
+{ 'Authorization' : tokenType + token }
+```
+
+### Request
+
+```typescript
+this.httpService.request({
+    guard: 'admin',
+    url: '...',
+    params: {...}
+})
+```
+
+### POST | PUT | PATCH
+
+```typescript
+this.httpService.post(url, data, {
+    guard: 'admin',
+})
+```
+
+### GET | DELETE | HEAD | OPTIONS
+
+```typescript
+this.httpService.get(url, {
+    guard: 'admin',
+    params: {...}
+})
+```
