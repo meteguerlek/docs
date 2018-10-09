@@ -14,6 +14,7 @@
     - [guard](#guard)
     - [getToken](#getToken)
     - [getStorage](#getStorage)
+    - [getHeaders](#getHeaders)
 - [Drivers](#drivers)
 - [Middleware](#middleware)
 
@@ -74,7 +75,7 @@ export default {
 **guard**: `string`
 **return**: `Promise`
 ```js
-this.$auth.login(data, guard)
+this.authService.login(data, guard)
 ```
 
 #### Example
@@ -84,7 +85,7 @@ this.$auth.login(data, guard)
 import Vue from "vue";
 
 export default Vue.extend({
-    $inject: ["$auth"],
+    $inject: ["authService"],
     data() {
         return {
             email: '',
@@ -93,7 +94,7 @@ export default Vue.extend({
     },
     methods: {
         login() {
-            this.$auth.login({
+            this.authService.login({
                 email: this.email,
                 password: this.password
             })
@@ -113,11 +114,11 @@ export default Vue.extend({
 **return**: `Promise`
 
 ```js
-this.$auth.register(data, guard)
+this.authService.register(data, guard)
 ```
 
 ```js
-this.$auth.register({
+this.authService.register({
     email: this.email,
     password: this.password,
     password_repeat: this.passwordRepeat,
@@ -135,11 +136,11 @@ this.$auth.register({
 **return**: `Promise`
 
 ```js
-this.$auth.logout(data, guard)
+this.authService.logout(data, guard)
 ```
 
 ```js
-this.$auth.logout()
+this.authService.logout()
     .then(response => {
         this.$router.push({name: 'home'});
     })
@@ -152,11 +153,11 @@ this.$auth.logout()
 **return**: `object`
 
 ```js
-this.$auth.user(data, guard)
+this.authService.user(data, guard)
 ```
 
 ```js
-this.$auth.user();
+this.authService.user();
 ```    
 ### fetchUser
 
@@ -164,11 +165,11 @@ this.$auth.user();
 **return**: `object`
 
 ```js
-this.$auth.fetchUser(guard)
+this.authService.fetchUser(guard)
 ```
 
 ```js
-this.$auth.fetchUser();
+this.authService.fetchUser();
 ```   
 
 ### check
@@ -179,11 +180,11 @@ Check with expires at time
 **return**: `boolean`
 
 ```js
-this.$auth.check(guard)
+this.authService.check(guard)
 ```
 
 ```js
-this.$auth.check();
+this.authService.check();
 ``` 
 
 ### loggedIn
@@ -192,11 +193,11 @@ this.$auth.check();
 **return**: `boolean`
 
 ```js
-this.$auth.loggedIn(guard)
+this.authService.loggedIn(guard)
 ```
 
 ```js
-this.$auth.loggedIn();
+this.authService.loggedIn();
 ```   
 
 ### guest
@@ -205,11 +206,11 @@ this.$auth.loggedIn();
 **return**: `boolean`
 
 ```js
-this.$auth.guest(guard)
+this.authService.guest(guard)
 ```
 
 ```js
-this.$auth.guest();
+this.authService.guest();
 ```   
 
 ### id
@@ -218,17 +219,17 @@ this.$auth.guest();
 **return**: `number|null`
 
 ```js
-this.$auth.id(guard)
+this.authService.id(guard)
 ```
 
 ```js
-this.$auth.id();
+this.authService.id();
 ```   
 
 ### guard
 
 ```js
-this.$auth.guard('admin').login({
+this.authService.guard('admin').login({
     emai: '...',
     password: '...'
 })
@@ -240,11 +241,11 @@ this.$auth.guard('admin').login({
 **return**: `string`
 
 ```js
-this.$auth.getToken(guard);
+this.authService.getToken(guard);
 ```
 
 ```js
-this.$auth.getToken();
+this.authService.getToken();
 ```
 
 ### getStorage
@@ -253,11 +254,24 @@ this.$auth.getToken();
 **return**: `object|null`
 
 ```js
-this.$auth.getStorage(guard);
+this.authService.getStorage(guard);
 ```
 
 ```js
-this.$auth.getStorage();
+this.authService.getStorage();
+```
+
+### getHeaders
+
+**guard**: `string`
+**return**: `object|null`
+
+```js
+this.authService.getHeaders(guard);
+```
+
+```js
+this.authService.getHeaders();
 ```
 
 ## Drivers
@@ -275,15 +289,15 @@ import AuthServiceInterface from "varie/lib/auth/AuthServiceInterface";
 
 @injectable()
 export default class Auth implements RouteMiddlewareInterface {
-    protected $auth;
+    protected authService;
 
-    constructor(@inject("$auth") auth: AuthServiceInterface) {
-        this.$auth = auth;
+    constructor(@inject("authService") auth: AuthServiceInterface) {
+        this.authService = auth;
     }
 
     handler(to, from, next) {
 
-        if (this.$auth.check()) {
+        if (this.authService.check()) {
             return next();
         }
 
