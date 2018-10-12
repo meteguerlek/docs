@@ -15,8 +15,11 @@
     - [getToken](#gettoken)
     - [getStorage](#getstorage)
     - [getHeaders](#getheaders)
-    - [onError](#onerror)
     - [authConfig](#authconfig)
+    - [redirect](#redirect)
+- [Listeners](#listeners)
+    - [onError](#onerror)
+    - [onUnauthorized](#onunauthorized)
 - [Drivers](#drivers)
 - [Middleware](#middleware)
 - [Use guard with httpService](#use-guard-with-httpservice)
@@ -30,9 +33,6 @@ export default {
     defaults: {
         guard: 'user'
     },
-    user: {
-        idPropertyName: 'id'
-    },
     guards: {
         user: {
             driver: 'jwt',
@@ -44,27 +44,28 @@ export default {
                 login: {
                     url: '/auth/login',
                     method: 'post', // default post
-                    redirect: '/dashboard' // default false
+                    redirect: {name: 'home'} // or '/', default false
                 },
                 logout: {
                     url: '/auth/logout',
                     method: 'post', // default post
-                    redirect: '/home'
+                    redirect: {name: 'home'} // default false
                 },
                 register: {
                     url: '/auth/register',
-                    method: 'post', // default post
-                    redirect: '/home', // default false
-                    autoLogin: true, // default false
+                    method: 'post', // default
+                    redirect: {name: 'home'}, // default false
+                    autoLogin: false, // default false
                 }
             },
-            headers: {},
+            headers: {}, // default
             // Request
-            tokenName: 'token',
+            tokenName: 'token', // default
             // Response
-            accessTokenName: 'access_token',
-            expiresAtName: 'expires_at',
-            tokenType: 'bearer'
+            accessTokenName: 'access_token', // default
+            expiresAtName: 'expires_at', // default
+            tokenType: 'bearer', // default
+            idName: 'id' // default id
         },
         /*admin: {
             driver: 'jwt',
@@ -288,24 +289,6 @@ this.authService.getHeaders(guard);
 this.authService.getHeaders();
 ```
 
-### onError
-
-**handler**: `function`
-
-```js
-this.authService.onError(handler);
-```
-
-**error**: `AxiosError`
-**guard**: `string`
-**entpoint**: `string`
-
-```js
-this.authService.onError((error, guard, endpoint) => {
-    console.log(error, guard, endpoint)
-});
-```
-
 ### authConfig
 
 **config**: `string`
@@ -318,12 +301,62 @@ this.authService.authConfig(config);
 this.authService.authConfig('guards');
 ```
 
+### redirect
+
+**route**: `object|string|boolean`
+
+```js
+this.authService.redirect(route);
+```
+
+```js
+this.authService.redirect('/'); // or { name: 'home' }
+```
+
 Like
 
 ```js
-this.configService.get('auth.guards');
+this.$router.push('/');
 ```
 
+## Listeners
+
+### onError
+
+**handler**: `function`
+
+```js
+this.authService.onError(handler);
+```
+
+**error**: `AxiosError`
+**guard**: `string`
+
+[Handling Errors](https://github.com/axios/axios#handling-errors)
+
+```js
+this.authService.onError((error, guard) => {
+    console.log(error, guard)
+});
+```
+
+### onUnauthorized 
+
+**handler**: `function`
+
+```js
+this.authService.onUnauthorized(handler);
+```
+
+**error**: `AxiosError`
+**guard**: `string`
+
+```js
+this.authService.onUnauthorized((error, guard) => {
+    console.log(error, guard)
+});
+
+```
 ## Drivers
 
 ### JWT
