@@ -16,6 +16,7 @@
     - [getStorage](#getstorage)
     - [getHeaders](#getheaders)
     - [onError](#onerror)
+    - [authConfig](#authconfig)
 - [Drivers](#drivers)
 - [Middleware](#middleware)
 - [Use guard with httpService](#use-guard-with-httpservice)
@@ -286,7 +287,6 @@ this.authService.getHeaders();
 
 **handler**: `function`
 
-
 ```js
 this.authService.onError(handler);
 ```
@@ -300,6 +300,25 @@ this.authService.onError((error, guard, endpoint) => {
     console.log(error, guard, endpoint)
 });
 ```
+
+### authConfig
+
+**config**: `string`
+
+```js
+this.authService.authConfig(config);
+```
+
+```js
+this.authService.authConfig('guards');
+```
+
+Like
+
+```js
+this.configService.get('auth.guards');
+```
+
 
 ## Drivers
 
