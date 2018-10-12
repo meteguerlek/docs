@@ -84,7 +84,12 @@ export default {
 this.authService.login(data, guard)
 ```
 
-If you use `then` you got as response: loginResponse and userResponse.
+`then()` response: 
+
+```js 
+{loginResponse: AxiosResponse, userResponse: AxiosResponse}
+
+```
 
 #### Example
 
