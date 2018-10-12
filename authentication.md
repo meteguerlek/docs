@@ -341,6 +341,8 @@ We use the default guard on every request if user logged in and send the `Author
 { 'Authorization' : tokenType + token }
 ```
 
+If you want use other guard for a request, add the guard property into config object
+
 ### Request
 
 ```typescript
