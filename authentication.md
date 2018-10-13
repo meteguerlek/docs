@@ -74,6 +74,21 @@ export default {
 };
 ```
 
+./config/app.ts
+
+Add `AuthServiceProvider`
+
+```typescript
+...
+import AuthServiceProvider from "varie/lib/auth/ServiceProvider";
+```
+
+```typescript
+...
+AuthServiceProvider,
+...
+```
+
 ## Methods
 
 ### login
